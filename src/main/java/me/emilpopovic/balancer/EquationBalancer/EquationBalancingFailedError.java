@@ -1,9 +1,6 @@
 package me.emilpopovic.balancer.EquationBalancer;
 
 public class EquationBalancingFailedError extends Exception {
-    public EquationBalancingFailedError() {
-        super();
-    }
 
     public EquationBalancingFailedError(String message) {
         super(message);
@@ -13,7 +10,4 @@ public class EquationBalancingFailedError extends Exception {
         super(message, cause);
     }
 
-    public EquationBalancingFailedError(Throwable cause) {
-        super(cause);
-    }
 }

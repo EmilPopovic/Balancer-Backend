@@ -23,4 +23,5 @@ public class BalancerController {
     ) throws EquationBalancingFailedError {
         return Balancer.getBalancedMap(equation);
     }
+
 }

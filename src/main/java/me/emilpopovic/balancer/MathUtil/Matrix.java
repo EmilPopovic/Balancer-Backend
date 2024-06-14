@@ -61,4 +61,5 @@ public interface Matrix<N extends Number> {
     Matrix<N> RREF();
 
     //endregion
+
 }

@@ -242,4 +242,5 @@ public class RationalMatrix implements Matrix<Rational> {
     }
 
     //endregion
+
 }

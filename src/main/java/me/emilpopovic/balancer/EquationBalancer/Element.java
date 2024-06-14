@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public enum Element {
+
+    //region All Elements
+
     H ("Hydrogen", "H"),
     HE("Helium", "He"),
     LI("Lithium", "Li"),
@@ -123,6 +126,8 @@ public enum Element {
     TS("Tennessine", "Ts"),
     OG("Oganesson", "Og");
 
+    //endregion
+
     public final String name;
     public final String symbol;
 
@@ -149,12 +154,4 @@ public enum Element {
         return getWithSymbolLength(2);
     }
 
-    public static Element withSymbol(String symbol) {
-        for (Element e: values()) {
-            if (e.symbol.equals(symbol)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("No such symbol: " + symbol);
-    }
 }

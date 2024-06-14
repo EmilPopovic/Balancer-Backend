@@ -50,15 +50,15 @@ public class Balancer {
         result.put("reactants", reactants);
         result.put("products",  products);
 
-        List<String> reactantStrs = Parser.getCompounds(parts[0]);
-        List<String> productStrs  = Parser.getCompounds(parts[1]);
+        List<String> reactantStrings = Parser.getCompounds(parts[0]);
+        List<String> productStrings  = Parser.getCompounds(parts[1]);
 
-        for (int i = 0; i < reactantStrs.size(); i++) {
-            reactants.put(reactantStrs.get(i), solution.get(i));
+        for (int i = 0; i < reactantStrings.size(); i++) {
+            reactants.put(reactantStrings.get(i), solution.get(i));
         }
 
-        for (int i = 0; i < productStrs .size(); i++) {
-            products.put(productStrs.get(i), solution.get(i + reactants.size()));
+        for (int i = 0; i < productStrings .size(); i++) {
+            products.put(productStrings.get(i), solution.get(i + reactants.size()));
         }
 
         return result;
@@ -82,10 +82,10 @@ public class Balancer {
 
         for (int i = 0; i < compounds.size(); i++) {
             String symbol = compoundsKeyList.get(i);
-            Integer coef = compounds.get(symbol);
+            Integer coefficient = compounds.get(symbol);
 
             result.append((i == 0) ? "" : " + ")
-                    .append((coef == 1) ? "" : String.format("%d ", coef))
+                    .append((coefficient == 1) ? "" : String.format("%d ", coefficient))
                     .append(symbol);
         }
 
@@ -124,4 +124,5 @@ public class Balancer {
     }
 
     //endregion
+
 }
