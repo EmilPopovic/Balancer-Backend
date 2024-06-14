@@ -1,6 +1,7 @@
 package me.emilpopovic.balancer.MathUtil;
 
 public class Rational extends Number implements Comparable<Rational> {
+
     public static final Rational ZERO = new Rational(0);
     public static final Rational ONE = new Rational(1);
 

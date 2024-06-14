@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinearSystem {
+
     private final RationalMatrix systemMatrix = new RationalMatrix();
     private int equationCount = 0;
     private List<Rational> solution = new ArrayList<>();
