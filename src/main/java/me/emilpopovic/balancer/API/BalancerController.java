@@ -1,9 +1,10 @@
 package me.emilpopovic.balancer.API;
 
 import me.emilpopovic.balancer.EquationBalancer.EquationBalancingFailedError;
-import me.emilpopovic.balancer.EquationBalancer.EquationFormatting.EquationDto;
 import org.springframework.web.bind.annotation.*;
 import me.emilpopovic.balancer.EquationBalancer.Balancer;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/balance")
@@ -17,9 +18,9 @@ public class BalancerController {
     }
 
     @GetMapping
-    public EquationDto getBalancedEquation(
+    public Map<String, Map<String, Integer>> getBalancedEquation(
             @RequestParam() String equation
     ) throws EquationBalancingFailedError {
-        return Balancer.getBalancedEquation(equation);
+        return Balancer.getBalancedMap(equation);
     }
 }

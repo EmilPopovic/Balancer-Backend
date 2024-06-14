@@ -1,13 +1,10 @@
 package me.emilpopovic.balancer.EquationBalancer;
 
-import me.emilpopovic.balancer.EquationBalancer.EquationFormatting.EquationDto;
-import me.emilpopovic.balancer.EquationBalancer.EquationFormatting.EquationToken;
 import me.emilpopovic.balancer.SystemSolver.LinearSystem;
 import me.emilpopovic.balancer.SystemSolver.NoUniqueSolutionError;
 import me.emilpopovic.balancer.MathUtil.Rational;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Balancer {
 
@@ -41,32 +38,58 @@ public class Balancer {
         return intSolution;
     }
 
-    public static EquationDto getBalancedEquation(String eq) throws EquationBalancingFailedError {
+    public static Map<String, Map<String, Integer>> getBalancedMap(String eq) throws EquationBalancingFailedError {
         List<Integer> solution = getIntegerSolution(eq);
 
         String[] parts = eq.split(">");
 
-        List<String> reactantsStr = Parser.getCompounds(parts[0]);
-        List<EquationToken> reactants = new LinkedList<>();
-        reactantsStr.forEach(s -> reactants.add(new EquationToken(Element.withSymbol(s))));
+        Map<String, Integer> reactants = new LinkedHashMap<>();
+        Map<String, Integer> products  = new LinkedHashMap<>();
 
-        List<String> productsStr = Parser.getCompounds(parts[1]);
-        List<EquationToken> products = new LinkedList<>();
-        reactantsStr.forEach(s -> products.add(new EquationToken(Element.withSymbol(s))));
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+        result.put("reactants", reactants);
+        result.put("products",  products);
 
-        for (int i = 0; i < reactantsStr.size(); i++) {
-            reactants.get(i).setCoefficient(solution.get(i));
+        List<String> reactantStrs = Parser.getCompounds(parts[0]);
+        List<String> productStrs  = Parser.getCompounds(parts[1]);
+
+        for (int i = 0; i < reactantStrs.size(); i++) {
+            reactants.put(reactantStrs.get(i), solution.get(i));
         }
 
-        for (int i = 0; i < productsStr.size(); i++) {
-            products.get(i).setCoefficient(solution.get(i + reactants.size()));
+        for (int i = 0; i < productStrs .size(); i++) {
+            products.put(productStrs.get(i), solution.get(i + reactants.size()));
         }
 
-        return new EquationDto(reactants, products);
+        return result;
     }
 
     public static String getBalancedString(String eq) throws EquationBalancingFailedError {
-        return getBalancedEquation(eq).toString();
+        Map<String, Map<String, Integer>> map = getBalancedMap(eq);
+
+        Map<String, Integer> reactants = map.get("reactants");
+
+        Map<String, Integer> products = map.get("products");
+
+        return equationSideToString(reactants) +
+                " > " +
+                equationSideToString(products);
+    }
+
+    private static StringBuilder equationSideToString(Map<String, Integer> compounds) {
+        StringBuilder result = new StringBuilder();
+        List<String> compoundsKeyList = new ArrayList<>(compounds.keySet());
+
+        for (int i = 0; i < compounds.size(); i++) {
+            String symbol = compoundsKeyList.get(i);
+            Integer coef = compounds.get(symbol);
+
+            result.append((i == 0) ? "" : " + ")
+                    .append((coef == 1) ? "" : String.format("%d ", coef))
+                    .append(symbol);
+        }
+
+        return result;
     }
 
     //endregion
@@ -97,6 +120,7 @@ public class Balancer {
 
         System.out.println(solution);
         System.out.println(getBalancedString(input));
+        System.out.println(getBalancedMap(input));
     }
 
     //endregion
